@@ -5,7 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { SITE } from "@/lib/site";
-import { app, carConfig } from "@/lib/store";
+import { app, rig } from "@/lib/store";
 
 type Paintable = THREE.Material & { color: THREE.Color };
 
@@ -63,7 +63,7 @@ export function ModelCar({ url }: { url: string }) {
 
   useFrame((_, delta) => {
     const k = 1 - Math.exp(-Math.min(delta, 0.05) * 4);
-    target.set(carConfig.paint);
+    target.setRGB(...rig.paint, THREE.SRGBColorSpace);
     for (const material of paints) material.color.lerp(target, k);
   });
 

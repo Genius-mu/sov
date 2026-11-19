@@ -92,15 +92,18 @@ export const MODELS = [
 
 export type ModelId = (typeof MODELS)[number]["id"];
 
+/** Light, pearlescent finishes first; a few deep ones at the end for contrast. */
 export const PAINTS = [
-  { id: "jubilee-silver", name: "Jubilee Silver", hex: "#b8bdc5" },
-  { id: "arctic-white", name: "Arctic White", hex: "#e6e9ec" },
-  { id: "diamond-black", name: "Diamond Black", hex: "#0d0f13" },
-  { id: "midnight-sapphire", name: "Midnight Sapphire", hex: "#18244c" },
-  { id: "salamanca-blue", name: "Salamanca Blue", hex: "#1f3f8f" },
-  { id: "tempest-grey", name: "Tempest Grey", hex: "#4b5058" },
-  { id: "bordeaux", name: "Bordeaux", hex: "#4a1220" },
-  { id: "emerald", name: "Emerald", hex: "#0f3b2e" },
+  { id: "pearl-white", name: "Pearl White", hex: "#f3efe8" },
+  { id: "jubilee-silver", name: "Jubilee Silver", hex: "#cdd2da" },
+  { id: "champagne", name: "Champagne", hex: "#f1dcae" },
+  { id: "rose-quartz", name: "Rose Quartz", hex: "#f7c3cf" },
+  { id: "coral", name: "Coral", hex: "#ffb09a" },
+  { id: "seafoam", name: "Seafoam", hex: "#b8ecd9" },
+  { id: "sky-blue", name: "Sky Blue", hex: "#bcd8ff" },
+  { id: "lilac", name: "Lilac", hex: "#d9c7ff" },
+  { id: "salamanca-blue", name: "Salamanca Blue", hex: "#2f5fd0" },
+  { id: "diamond-black", name: "Diamond Black", hex: "#14161b" },
 ] as const;
 
 export const COACHLINES = [

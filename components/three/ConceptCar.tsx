@@ -77,13 +77,18 @@ export function ConceptCar() {
   const materials = useMemo(() => {
     const glow = getGlowTexture();
     return {
+      // Light pastel paint: low metalness so the colour itself shows, plus a
+      // thin-film pearl layer that shifts hue slightly as the light moves over it
       paint: new THREE.MeshPhysicalMaterial({
-        color: carConfig.paint,
-        metalness: 0.5,
-        roughness: 0.32,
+        color: new THREE.Color().setRGB(...rig.paint, THREE.SRGBColorSpace),
+        metalness: 0.22,
+        roughness: 0.26,
         clearcoat: 1,
-        clearcoatRoughness: 0.03,
-        envMapIntensity: 1.3,
+        clearcoatRoughness: 0.04,
+        iridescence: 0.35,
+        iridescenceIOR: 1.35,
+        iridescenceThicknessRange: [180, 420],
+        envMapIntensity: 1.25,
       }),
       glass: new THREE.MeshPhysicalMaterial({
         color: "#04060b",
@@ -134,8 +139,8 @@ export function ConceptCar() {
     const dt = Math.min(delta, 0.05);
     const k = 1 - Math.exp(-dt * 4);
 
-    // Configurator choices fade in rather than snapping
-    materials.paint.color.lerp(targets.paint.set(carConfig.paint), k);
+    // Scroll palette and configurator choices fade in rather than snapping
+    materials.paint.color.lerp(targets.paint.setRGB(...rig.paint, THREE.SRGBColorSpace), k);
     materials.coachline.color.lerp(targets.coachline.set(carConfig.coachline), k);
     const dark = carConfig.wheels === "dark";
     materials.rim.color.lerp(targets.rim.set(dark ? "#2a2d33" : "#dfe3ea"), k);
