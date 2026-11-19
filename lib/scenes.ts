@@ -37,9 +37,9 @@ export const SCENES = {
   // Midnight sapphire, champagne
   hero: { cx: 5.6, cy: 1.45, cz: 6.4, lx: -1.6, ly: 0.55, lz: 0.8, stars: 0, bg: "#0e1626", accent: "#e2c9a0", paint: "#f3efe8" },
   // Bordeaux, rose clay. Car sits right of the paragraph
-  intro: { cx: -0.4, cy: 1.1, cz: 10.4, lx: -2.9, ly: 0.8, lz: 0, stars: 0, bg: "#2a1418", accent: "#ecb8a8", paint: "#f1dcae" },
+  intro: { cx: -0.4, cy: 1.1, cz: 10.4, lx: -3.4, ly: 0.8, lz: 0, stars: 0, bg: "#2a1418", accent: "#ecb8a8", paint: "#f1dcae" },
   // Racing green, sage. Close on the coachline, pushed right of the text column
-  craft: { cx: 4.4, cy: 0.6, cz: 4.2, lx: 0.2, ly: 0.45, lz: 2.3, stars: 0, bg: "#11241c", accent: "#b9d6b0", paint: "#dfe9df" },
+  craft: { cx: 4.4, cy: 0.6, cz: 4.2, lx: 0.04, ly: 0.45, lz: 2.66, stars: 0, bg: "#11241c", accent: "#b9d6b0", paint: "#dfe9df" },
   // Petrol, ice → aubergine, lilac. Car high and right, above the cards and clear of the heading
   collection: { cx: -6.6, cy: 3.0, cz: 5.6, lx: -1.3, ly: -0.9, lz: -1.5, stars: 0, bg: "#0d2328", accent: "#a9cfe3", paint: "#c9dff2" },
   collectionEnd: { cx: 6.6, cy: 2.7, cz: 5.8, lx: -1.3, ly: -0.9, lz: 1.5, stars: 0, bg: "#1d1530", accent: "#c6b6ec", paint: "#dccdf7" },

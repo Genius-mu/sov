@@ -103,7 +103,10 @@ export function Studio() {
           minDepthThreshold={0.4}
           maxDepthThreshold={1.3}
           color="#0e1626"
-          metalness={0.5}
+          // Not metallic and no softbox reflections, so the floor sits at the
+          // backdrop colour and only mirrors the car itself
+          metalness={0}
+          envMapIntensity={0}
           mirror={0}
         />
       </mesh>
