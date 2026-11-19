@@ -14,9 +14,29 @@
   --ease-lux: cubic-bezier(0.22, 0.8, 0.12, 1);
 }
 
+/*
+ * Section palette, as "r g b" channels. ScrollScenes rewrites these while you
+ * scroll (values come from lib/scenes.ts); these defaults match the hero.
+ * A card can override --accent / --accent-2 locally to get its own hue.
+ */
+:root {
+  --accent: 255 111 174;
+  --accent-2: 255 179 107;
+  --bg: 31 18 33;
+}
+
+@theme inline {
+  --color-accent: rgb(var(--accent));
+  --color-accent-2: rgb(var(--accent-2));
+  --color-ink: rgb(var(--bg));
+}
+
+/* Short laptop screens: lets pinned sections tighten up so nothing is cut off */
+@custom-variant short (@media (min-width: 768px) and (max-height: 820px));
+
 @layer base {
   html {
-    background-color: #060810;
+    background-color: rgb(var(--bg));
     color: #e8ecf4;
     color-scheme: dark;
   }
@@ -36,11 +56,11 @@
     text-wrap: pretty;
   }
   ::selection {
-    background: #e2cc9c;
+    background: rgb(var(--accent));
     color: #060810;
   }
   :focus-visible {
-    outline: 1px solid #e2cc9c;
+    outline: 1px solid rgb(var(--accent));
     outline-offset: 4px;
   }
   option {
@@ -77,13 +97,56 @@ html.is-loading {
       0 40px 90px -40px rgb(0 0 0 / 0.75);
   }
   .glass-strong {
-    background: linear-gradient(155deg, rgb(20 26 44 / 0.72), rgb(10 13 24 / 0.62));
+    background:
+      radial-gradient(120% 70% at 0% 0%, rgb(var(--accent) / 0.12), transparent 60%),
+      linear-gradient(155deg, rgb(var(--bg) / 0.8), rgb(10 13 24 / 0.66));
     -webkit-backdrop-filter: blur(28px) saturate(150%);
     backdrop-filter: blur(28px) saturate(150%);
     border: 1px solid rgb(255 255 255 / 0.1);
     box-shadow:
       inset 0 1px 0 rgb(255 255 255 / 0.1),
       0 50px 100px -40px rgb(0 0 0 / 0.8);
+  }
+
+  /*
+   * Glass for content panels that sit over the car. Darker than .glass so white
+   * text stays readable over light paint, with a wash of the accent colours and
+   * a gradient hairline border.
+   */
+  .glass-card {
+    position: relative;
+    background:
+      radial-gradient(130% 75% at 0% 0%, rgb(var(--accent) / 0.2), transparent 58%),
+      radial-gradient(100% 70% at 100% 100%, rgb(var(--accent-2) / 0.13), transparent 62%),
+      linear-gradient(165deg, rgb(var(--bg) / 0.82), rgb(8 10 20 / 0.7));
+    -webkit-backdrop-filter: blur(26px) saturate(170%);
+    backdrop-filter: blur(26px) saturate(170%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.1),
+      0 40px 90px -40px rgb(0 0 0 / 0.85),
+      0 30px 80px -50px rgb(var(--accent) / 0.55);
+  }
+  .glass-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      140deg,
+      rgb(var(--accent) / 0.7),
+      rgb(255 255 255 / 0.08) 32%,
+      rgb(255 255 255 / 0.06) 68%,
+      rgb(var(--accent-2) / 0.55)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
   }
 
   /* Soft light that follows the pointer across a card */
@@ -97,12 +160,53 @@ html.is-loading {
     z-index: -1;
     border-radius: inherit;
     pointer-events: none;
-    background: radial-gradient(380px circle at var(--mx, 50%) var(--my, -20%), rgb(188 210 255 / 0.14), transparent 65%);
+    background: radial-gradient(380px circle at var(--mx, 50%) var(--my, -20%), rgb(var(--accent) / 0.22), transparent 65%);
     opacity: 0;
     transition: opacity 0.5s cubic-bezier(0.22, 0.8, 0.12, 1);
   }
   .spotlight:hover::before {
     opacity: 1;
+  }
+
+  /* Small pill label, tinted with the accent */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    border: 1px solid rgb(var(--accent) / 0.35);
+    background: rgb(var(--accent) / 0.12);
+    padding: 0.3rem 0.8rem;
+    color: rgb(var(--accent));
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .chip::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgb(var(--accent));
+    box-shadow: 0 0 10px rgb(var(--accent));
+  }
+
+  /* Accent gradient text. Padding keeps italic overhangs and descenders inside the paint */
+  .text-gradient {
+    background-image: linear-gradient(100deg, rgb(var(--accent)), rgb(var(--accent-2)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding: 0 0.08em 0.12em;
+    margin: 0 -0.08em -0.12em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* Hairline divider that fades out from the accent */
+  .rule-accent {
+    height: 1px;
+    background: linear-gradient(90deg, rgb(var(--accent) / 0.75), rgb(var(--accent-2) / 0.3) 45%, rgb(255 255 255 / 0.08));
   }
 
   .btn-primary {
@@ -112,20 +216,24 @@ html.is-loading {
     gap: 0.6rem;
     border-radius: 999px;
     padding: 0.95rem 1.7rem;
-    background-color: #e8ecf4;
+    background-image: linear-gradient(100deg, rgb(var(--accent)), rgb(var(--accent-2)));
     color: #060810;
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.005em;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.35),
+      0 10px 30px -12px rgb(var(--accent) / 0.7);
     transition:
-      background-color 0.4s cubic-bezier(0.22, 0.8, 0.12, 1),
+      filter 0.4s cubic-bezier(0.22, 0.8, 0.12, 1),
       box-shadow 0.4s cubic-bezier(0.22, 0.8, 0.12, 1);
   }
   .btn-primary:hover {
-    background-color: #ffffff;
+    filter: brightness(1.08) saturate(1.1);
     box-shadow:
-      0 0 0 6px rgb(232 236 244 / 0.08),
-      0 10px 40px -10px rgb(188 210 255 / 0.5);
+      inset 0 1px 0 rgb(255 255 255 / 0.4),
+      0 0 0 6px rgb(var(--accent) / 0.14),
+      0 14px 44px -10px rgb(var(--accent) / 0.85);
   }
   .btn-primary:disabled {
     opacity: 0.6;
@@ -149,8 +257,8 @@ html.is-loading {
       background-color 0.4s cubic-bezier(0.22, 0.8, 0.12, 1);
   }
   .btn-ghost:hover {
-    border-color: rgb(226 204 156 / 0.6);
-    background-color: rgb(255 255 255 / 0.08);
+    border-color: rgb(var(--accent) / 0.75);
+    background-color: rgb(var(--accent) / 0.12);
   }
   .btn-ghost:disabled {
     opacity: 0.45;
@@ -178,8 +286,9 @@ html.is-loading {
   }
   .field:focus {
     outline: none;
-    border-color: rgb(226 204 156 / 0.7);
+    border-color: rgb(var(--accent) / 0.8);
     background-color: rgb(255 255 255 / 0.07);
+    box-shadow: 0 0 0 4px rgb(var(--accent) / 0.12);
   }
   .field[aria-invalid="true"] {
     border-color: #e48a96;
@@ -192,12 +301,12 @@ html.is-loading {
     padding-right: 2.5rem;
   }
 
-  /* Vignette + left-side shade so text stays readable over the 3D scene */
+  /* Vignette + left-side shade so text stays readable over the 3D scene, tinted with the section colour */
   .scene-scrim {
     background:
-      radial-gradient(120% 85% at 62% 45%, transparent 45%, rgb(3 4 9 / 0.78) 100%),
-      linear-gradient(90deg, rgb(6 8 16 / 0.6) 0%, rgb(6 8 16 / 0.15) 45%, transparent 65%),
-      linear-gradient(0deg, rgb(6 8 16 / 0.55), transparent 35%);
+      radial-gradient(120% 85% at 62% 45%, transparent 45%, rgb(var(--bg) / 0.8) 100%),
+      linear-gradient(90deg, rgb(6 8 16 / 0.62) 0%, rgb(6 8 16 / 0.18) 45%, transparent 65%),
+      linear-gradient(0deg, rgb(var(--bg) / 0.6), transparent 35%);
   }
 
   /* Static film grain */
@@ -223,7 +332,7 @@ html.is-loading {
     content: "";
     position: absolute;
     inset: 0;
-    background: #e2cc9c;
+    background: linear-gradient(180deg, rgb(var(--accent)), rgb(var(--accent-2)));
     transform: translateY(-100%);
     animation: cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
   }
@@ -250,6 +359,13 @@ html.is-loading {
 .has-cursor textarea,
 .has-cursor select {
   cursor: auto !important;
+}
+.cursor-ring {
+  border-color: rgb(232 236 244 / 0.45);
+  transition: border-color 0.35s cubic-bezier(0.22, 0.8, 0.12, 1);
+}
+.cursor-ring[data-hot] {
+  border-color: rgb(var(--accent) / 0.95);
 }
 
 @media (prefers-reduced-motion: reduce) {

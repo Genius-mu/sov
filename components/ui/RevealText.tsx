@@ -4,8 +4,21 @@ import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/lenis";
 
-/** Paragraph whose words brighten one by one as you scroll through it. */
-export function RevealText({ text, className }: { text: string; className?: string }) {
+const bare = (word: string) => word.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+
+/**
+ * Paragraph whose words brighten one by one as you scroll through it.
+ * Words listed in `highlight` (matched without punctuation) are set in accent gradient italics.
+ */
+export function RevealText({
+  text,
+  className,
+  highlight = [],
+}: {
+  text: string;
+  className?: string;
+  highlight?: string[];
+}) {
   const ref = useRef<HTMLParagraphElement>(null);
 
   useGSAP(
@@ -26,12 +39,13 @@ export function RevealText({ text, className }: { text: string; className?: stri
     { scope: ref },
   );
 
+  const marked = new Set(highlight.map(bare));
   const words = text.split(" ");
   return (
     <p ref={ref} className={className}>
       {words.map((word, i) => (
         <span key={`${word}-${i}`} data-rw>
-          {word}
+          {marked.has(bare(word)) ? <em className="text-gradient">{word}</em> : word}
           {i < words.length - 1 ? " " : ""}
         </span>
       ))}

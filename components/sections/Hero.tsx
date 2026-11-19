@@ -54,8 +54,8 @@ export function Hero() {
           <span className="block">
             <SplitWords text="Arrive" />
           </span>
-          <span className="block">
-            <SplitWords text="in silence." />
+          <span className="block italic">
+            <SplitWords text="in silence." wordClassName="text-gradient" />
           </span>
         </h1>
 

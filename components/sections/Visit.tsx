@@ -119,7 +119,7 @@ export function Visit() {
             <div>
               <dt className="text-sm text-mist">Call</dt>
               <dd className="mt-2">
-                <a href={tel} className="transition-colors hover:text-champagne">
+                <a href={tel} className="transition-colors hover:text-accent">
                   {SITE.phone}
                 </a>
               </dd>
@@ -127,7 +127,7 @@ export function Visit() {
             <div>
               <dt className="text-sm text-mist">Email</dt>
               <dd className="mt-2">
-                <a href={`mailto:${SITE.email}`} className="transition-colors hover:text-champagne">
+                <a href={`mailto:${SITE.email}`} className="transition-colors hover:text-accent">
                   {SITE.email}
                 </a>
               </dd>

@@ -30,10 +30,10 @@ export function Footer() {
                 {line}
               </span>
             ))}
-            <a href={`tel:${SITE.phone.replace(/\s/g, "")}`} className="mt-3 block transition-colors hover:text-champagne">
+            <a href={`tel:${SITE.phone.replace(/\s/g, "")}`} className="mt-3 block transition-colors hover:text-accent">
               {SITE.phone}
             </a>
-            <a href={`mailto:${SITE.email}`} className="block transition-colors hover:text-champagne">
+            <a href={`mailto:${SITE.email}`} className="block transition-colors hover:text-accent">
               {SITE.email}
             </a>
           </address>
@@ -44,7 +44,7 @@ export function Footer() {
           <ul className="mt-3 space-y-1.5">
             {NAV.map((item) => (
               <li key={item.href}>
-                <a href={item.href} onClick={go(item.href)} className="transition-colors hover:text-champagne">
+                <a href={item.href} onClick={go(item.href)} className="transition-colors hover:text-accent">
                   {item.label}
                 </a>
               </li>
