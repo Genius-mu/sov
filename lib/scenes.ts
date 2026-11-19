@@ -5,11 +5,13 @@
  * c* = where the camera sits, l* = the point it looks at,
  * stars = how visible the Starlight sky is (0 to 1).
  *
- * paint = the car's colour in that section (null = whatever the configurator
- * has selected), aura / glow = the two accent colours. They light the car and
- * the sky behind it, and tint the page (buttons, headings, cards, the nav).
+ * bg = the flat backdrop colour of the studio (and the page) in that section,
+ * accent = the single accent colour (buttons, labels, rules, a light tint on
+ * the car), paint = the car's colour (null = whatever the configurator has
+ * selected). Backdrops are deep and flat; accents are light, so dark text on
+ * an accent button and accent text on a backdrop both read clearly.
  *
- * The car is about 5.6 m long, centred on the origin, nose pointing along +x.
+ * The car is about 5.8 m long, centred on the origin, nose pointing along +x.
  * Shifting the look point sideways moves the car to the other side of the
  * screen, which is how the text and the car share the frame.
  */
@@ -24,24 +26,33 @@ export type CameraShot = {
 };
 
 export type Palette = {
+  bg: string;
+  accent: string;
   paint: string | null;
-  aura: string;
-  glow: string;
 };
 
 export type Shot = CameraShot & Palette;
 
 export const SCENES = {
-  hero: { cx: 5.6, cy: 1.45, cz: 6.4, lx: -1.6, ly: 0.55, lz: 0.8, stars: 0, paint: "#f3efe8", aura: "#ff6fae", glow: "#ffb36b" },
-  intro: { cx: -0.4, cy: 1.0, cz: 9.2, lx: -2.0, ly: 0.75, lz: 0, stars: 0, paint: "#f1dcae", aura: "#ffa53d", glow: "#ff6f91" },
-  craft: { cx: 3.6, cy: 0.55, cz: 3.4, lx: 0.96, ly: 0.42, lz: 1.45, stars: 0, paint: "#b8ecd9", aura: "#22d3a6", glow: "#7dd3fc" },
-  collection: { cx: -6.6, cy: 3.0, cz: 5.6, lx: 0, ly: -0.45, lz: 0, stars: 0, paint: "#bcd8ff", aura: "#38bdf8", glow: "#a78bfa" },
-  collectionEnd: { cx: 6.6, cy: 2.7, cz: 5.8, lx: 0, ly: -0.45, lz: 0, stars: 0, paint: "#d9c7ff", aura: "#a78bfa", glow: "#f472b6" },
-  performance: { cx: 6.4, cy: 0.45, cz: 3.2, lx: 0, ly: 0.65, lz: 0, stars: 0, paint: "#ffbfac", aura: "#ff5a5f", glow: "#ffb020" },
-  starlight: { cx: 0.8, cy: 1.8, cz: 7.8, lx: 0, ly: 7.5, lz: -7, stars: 1, paint: "#d6e1ff", aura: "#7c83ff", glow: "#5eead4" },
-  bespoke: { cx: -5.4, cy: 1.5, cz: 5.0, lx: -1.1, ly: 0.5, lz: -1.15, stars: 0, paint: null, aura: "#f5c46b", glow: "#ff8fab" },
-  process: { cx: 0, cy: 11, cz: 2.6, lx: 0, ly: 0, lz: 0, stars: 0, paint: null, aura: "#2dd4bf", glow: "#60a5fa" },
-  visit: { cx: 2, cy: 2.6, cz: 11, lx: 0.6, ly: 0.4, lz: 0, stars: 0.45, paint: null, aura: "#ff8a5b", glow: "#f472b6" },
+  // Midnight sapphire, champagne
+  hero: { cx: 5.6, cy: 1.45, cz: 6.4, lx: -1.6, ly: 0.55, lz: 0.8, stars: 0, bg: "#0e1626", accent: "#e2c9a0", paint: "#f3efe8" },
+  // Bordeaux, rose clay. Car sits right of the paragraph
+  intro: { cx: -0.4, cy: 1.1, cz: 10.4, lx: -2.9, ly: 0.8, lz: 0, stars: 0, bg: "#2a1418", accent: "#ecb8a8", paint: "#f1dcae" },
+  // Racing green, sage. Close on the coachline, pushed right of the text column
+  craft: { cx: 4.4, cy: 0.6, cz: 4.2, lx: 0.2, ly: 0.45, lz: 2.3, stars: 0, bg: "#11241c", accent: "#b9d6b0", paint: "#dfe9df" },
+  // Petrol, ice → aubergine, lilac. Car high and right, above the cards and clear of the heading
+  collection: { cx: -6.6, cy: 3.0, cz: 5.6, lx: -1.3, ly: -0.9, lz: -1.5, stars: 0, bg: "#0d2328", accent: "#a9cfe3", paint: "#c9dff2" },
+  collectionEnd: { cx: 6.6, cy: 2.7, cz: 5.8, lx: -1.3, ly: -0.9, lz: 1.5, stars: 0, bg: "#1d1530", accent: "#c6b6ec", paint: "#dccdf7" },
+  // Graphite, copper
+  performance: { cx: 6.4, cy: 0.45, cz: 3.2, lx: 0, ly: 0.65, lz: 0, stars: 0, bg: "#18181b", accent: "#e9a27e", paint: "#f4c2b0" },
+  // Indigo night, starlight blue
+  starlight: { cx: 0.8, cy: 1.8, cz: 7.8, lx: 0, ly: 7.5, lz: -7, stars: 1, bg: "#090b1a", accent: "#b8c2ff", paint: "#d8e0f5" },
+  // Espresso, gold
+  bespoke: { cx: -5.4, cy: 1.5, cz: 5.0, lx: -1.1, ly: 0.5, lz: -1.15, stars: 0, bg: "#231a12", accent: "#e6c27a", paint: null },
+  // Slate, mint
+  process: { cx: 0, cy: 11, cz: 2.6, lx: 0, ly: 0, lz: 0, stars: 0, bg: "#141c22", accent: "#9fd3c7", paint: null },
+  // Plum, rose. Looking up past the car, so it sits low beneath the text
+  visit: { cx: 2, cy: 2.0, cz: 13, lx: 0.3, ly: 3.4, lz: 0, stars: 0.45, bg: "#22142a", accent: "#e9b7c8", paint: null },
 } satisfies Record<string, Shot>;
 
 export type SceneKey = keyof typeof SCENES;

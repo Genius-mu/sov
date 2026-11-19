@@ -34,8 +34,9 @@ export default function Experience() {
         }}
         camera={{ position: [h.cx * 1.9, h.cy + 1.4, h.cz * 1.9], fov: 32, near: 0.1, far: 200 }}
       >
-        <color attach="background" args={["#060810"]} />
-        <fog attach="fog" args={["#060810", 16, 38]} />
+        {/* Studio recolours both every frame to the section's backdrop */}
+        <color attach="background" args={[h.bg]} />
+        <fog attach="fog" args={[h.bg, 12, 32]} />
         <LoadReporter />
         <Suspense fallback={null}>
           <Studio />

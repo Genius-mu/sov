@@ -1,4 +1,4 @@
-/** Wraps each word in a mask so it can rise into place. `wordClassName` styles each word (e.g. gradient text). */
+/** Wraps each word in a mask so it can rise into place. `wordClassName` styles each word (e.g. a colour). */
 export function SplitWords({ text, wordClassName = "" }: { text: string; wordClassName?: string }) {
   const words = text.split(" ");
   return (

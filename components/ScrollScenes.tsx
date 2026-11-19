@@ -1,7 +1,7 @@
 "use client";
 
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
-import { hexToRgb, mixRgb, NIGHT, rgbChannels, type RGB } from "@/lib/color";
+import { hexToRgb, mixRgb, rgbChannels, WHITE, type RGB } from "@/lib/color";
 import { SCENES, type CameraShot, type SceneKey, type Shot } from "@/lib/scenes";
 import { carConfig, rig } from "@/lib/store";
 
@@ -16,7 +16,8 @@ type Segment = { trigger: () => ScrollTrigger | undefined; from: Shot; to: Shot 
  * its own while the section scrolls into view. A section with data-scene-pin
  * (the id of its pin ScrollTrigger) and data-scene-exit adds a second segment
  * that runs while it is pinned. The result is written to `rig` every frame (the
- * 3D scene eases towards it) and the accent colours to CSS variables on <html>.
+ * 3D scene eases towards it) and the accent, backdrop and panel colours to CSS
+ * variables on <html>, so the page and the studio share one flat colour.
  */
 export function ScrollScenes() {
   useGSAP(() => {
@@ -42,7 +43,7 @@ export function ScrollScenes() {
     });
 
     const style = document.documentElement.style;
-    const bg: RGB = [0, 0, 0];
+    const surface: RGB = [0, 0, 0];
     let lastCss = "";
 
     // A null paint means "the car as configured", so the configurator owns those sections
@@ -68,20 +69,21 @@ export function ScrollScenes() {
       for (const key of KEYS) rig[key] = from[key] + (to[key] - from[key]) * t;
 
       mixRgb(paintOf(from), paintOf(to), t, rig.paint);
-      mixRgb(hexToRgb(from.aura), hexToRgb(to.aura), t, rig.aura);
-      mixRgb(hexToRgb(from.glow), hexToRgb(to.glow), t, rig.glow);
-      mixRgb(NIGHT, rig.aura, 0.1, bg);
+      mixRgb(hexToRgb(from.accent), hexToRgb(to.accent), t, rig.accent);
+      mixRgb(hexToRgb(from.bg), hexToRgb(to.bg), t, rig.bg);
+      // Panels are the backdrop lifted one step towards white: flat, but distinct
+      mixRgb(rig.bg, WHITE, 0.05, surface);
 
       // Only touch the DOM when a colour actually changes
-      const accent = rgbChannels(rig.aura);
-      const accent2 = rgbChannels(rig.glow);
-      const ground = rgbChannels(bg);
-      const css = `${accent}|${accent2}|${ground}`;
+      const accent = rgbChannels(rig.accent);
+      const ground = rgbChannels(rig.bg);
+      const panel = rgbChannels(surface);
+      const css = `${accent}|${ground}|${panel}`;
       if (css !== lastCss) {
         lastCss = css;
         style.setProperty("--accent", accent);
-        style.setProperty("--accent-2", accent2);
         style.setProperty("--bg", ground);
+        style.setProperty("--surface", panel);
       }
     };
 

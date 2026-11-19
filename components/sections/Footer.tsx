@@ -12,7 +12,8 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative z-10 overflow-hidden border-t border-white/10 bg-night/80 backdrop-blur-xl">
+    <footer className="relative z-10 overflow-hidden bg-ink">
+      <div className="rule-accent" aria-hidden />
       <div className="mx-auto grid max-w-[1400px] gap-12 px-6 pb-12 pt-20 md:grid-cols-[2fr_1fr_1fr] md:px-10">
         <div>
           <div className="flex items-center gap-3">
@@ -55,7 +56,7 @@ export function Footer() {
 
       <p
         aria-hidden
-        className="pointer-events-none select-none whitespace-nowrap text-center font-display text-[21vw] leading-[0.78] tracking-[-0.05em] text-white/[0.05]"
+        className="pointer-events-none select-none whitespace-nowrap text-center font-display text-[21vw] leading-[0.78] tracking-[-0.05em] text-accent/[0.08]"
       >
         {SITE.name}
       </p>

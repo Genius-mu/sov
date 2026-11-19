@@ -42,7 +42,7 @@ export function Performance() {
       <div className="mx-auto flex min-h-[85vh] max-w-[1400px] flex-col justify-between px-6 md:px-10">
         <header className="max-w-lg">
           <h2 className="font-display text-[clamp(2.25rem,4.5vw,4.5rem)] leading-[1.02] tracking-[-0.015em]">
-            Power you <em className="text-gradient">rarely hear.</em>
+            Power you rarely hear.
           </h2>
           <p className="mt-5 max-w-[42ch] leading-relaxed text-moon/70">
             The V12 delivers its full torque from just above idle, so the car gathers pace without
@@ -50,23 +50,24 @@ export function Performance() {
           </p>
         </header>
 
-        <div className="mt-20">
-          <dl className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4">
+        {/* Solid panel: the figures sit in front of the car in this shot */}
+        <div className="glass-card mt-20 rounded-[28px] p-7 md:p-10">
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
             {STATS.map((stat) => (
               <div key={stat.label} className="flex flex-col-reverse">
                 <dt className="mt-3 text-sm text-mist">{stat.label}</dt>
                 <dd className="font-display text-[clamp(3rem,6vw,5.5rem)] leading-none tracking-[-0.03em]">
-                  <span data-count={stat.value} data-decimals={stat.decimals} className="text-gradient tabular-nums">
+                  <span data-count={stat.value} data-decimals={stat.decimals} className="tabular-nums">
                     {stat.value.toFixed(stat.decimals)}
                   </span>
-                  <span className="ml-2 font-sans text-base tracking-normal text-mist">{stat.unit}</span>
+                  <span className="ml-2 font-sans text-base tracking-normal text-accent">{stat.unit}</span>
                 </dd>
                 {/* last in the DOM, first on screen (column is reversed) */}
                 <div className="rule-accent mb-6" aria-hidden />
               </div>
             ))}
           </dl>
-          <p className="mt-10 max-w-[70ch] text-sm leading-relaxed text-mist">
+          <p className="mt-8 max-w-[70ch] text-sm leading-relaxed text-mist">
             Figures for Phantom. Spectre is fully electric, with 577 hp and up to 530 km of range
             (WLTP).
           </p>

@@ -45,12 +45,9 @@ export function Cursor() {
         const target = e.target instanceof Element ? e.target : null;
         const field = target?.closest("input, textarea, select");
         const interactive = target?.closest("a, button, [role='radio'], label");
-        gsap.to(r, {
-          scale: field ? 0 : interactive ? 1.9 : 1,
-          borderColor: interactive ? "rgba(226,204,156,0.9)" : "rgba(232,236,244,0.45)",
-          duration: 0.35,
-          ease: "power3.out",
-        });
+        // Colour comes from CSS (.cursor-ring[data-hot]) so it follows the section accent
+        r.toggleAttribute("data-hot", Boolean(interactive));
+        gsap.to(r, { scale: field ? 0 : interactive ? 1.9 : 1, duration: 0.35, ease: "power3.out" });
         gsap.to(d, { scale: field || interactive ? 0 : 1, duration: 0.25 });
       };
 
@@ -80,7 +77,7 @@ export function Cursor() {
       <div
         ref={ring}
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[120] size-10 rounded-full border border-moon/45"
+        className="cursor-ring pointer-events-none fixed left-0 top-0 z-[120] size-10 rounded-full border"
       />
       <div
         ref={dot}

@@ -22,7 +22,7 @@ export function Starlight() {
       <div className="sticky top-0 flex h-svh items-center justify-center px-6 text-center">
         <div className="max-w-2xl">
           <h2 className="font-display text-[clamp(3.2rem,8vw,7.5rem)] leading-[0.95] tracking-[-0.02em]">
-            Look <em className="text-gradient">up.</em>
+            Look up.
           </h2>
           <p className="mx-auto mt-6 max-w-[48ch] text-lg leading-relaxed text-moon/75">
             The Starlight Headliner weaves more than a thousand fibre-optic points into the roof

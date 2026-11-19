@@ -8,7 +8,7 @@ const bare = (word: string) => word.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "")
 
 /**
  * Paragraph whose words brighten one by one as you scroll through it.
- * Words listed in `highlight` (matched without punctuation) are set in accent gradient italics.
+ * Words listed in `highlight` (matched without punctuation) are set in the accent colour, in italics.
  */
 export function RevealText({
   text,
@@ -45,7 +45,7 @@ export function RevealText({
     <p ref={ref} className={className}>
       {words.map((word, i) => (
         <span key={`${word}-${i}`} data-rw>
-          {marked.has(bare(word)) ? <em className="text-gradient">{word}</em> : word}
+          {marked.has(bare(word)) ? <em className="text-accent">{word}</em> : word}
           {i < words.length - 1 ? " " : ""}
         </span>
       ))}

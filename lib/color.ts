@@ -27,5 +27,4 @@ export function rgbChannels(c: RGB): string {
   return `${Math.round(c[0] * 255)} ${Math.round(c[1] * 255)} ${Math.round(c[2] * 255)}`;
 }
 
-/** The darkest tone of the site. Section backgrounds are this, tinted towards the accent. */
-export const NIGHT: RGB = hexToRgb("#060810");
+export const WHITE: RGB = [1, 1, 1];

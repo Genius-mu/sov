@@ -1,12 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-night: #060810;
-  --color-lacquer: #0c1120;
   --color-moon: #e8ecf4;
   --color-mist: #8e98ac;
-  --color-star: #bcd2ff;
-  --color-champagne: #e2cc9c;
 
   --font-display: var(--font-bodoni), "Bodoni 72", Didot, Georgia, serif;
   --font-sans: var(--font-hanken), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -17,18 +13,20 @@
 /*
  * Section palette, as "r g b" channels. ScrollScenes rewrites these while you
  * scroll (values come from lib/scenes.ts); these defaults match the hero.
- * A card can override --accent / --accent-2 locally to get its own hue.
+ * --bg is the flat backdrop (the 3D studio uses the same colour), --surface is
+ * the panel colour one step lighter, --accent the single accent colour.
+ * A card can override --accent locally to get its own colour.
  */
 :root {
-  --accent: 255 111 174;
-  --accent-2: 255 179 107;
-  --bg: 31 18 33;
+  --accent: 226 201 160;
+  --bg: 14 22 38;
+  --surface: 26 34 49;
 }
 
 @theme inline {
   --color-accent: rgb(var(--accent));
-  --color-accent-2: rgb(var(--accent-2));
   --color-ink: rgb(var(--bg));
+  --color-surface: rgb(var(--surface));
 }
 
 /* Short laptop screens: lets pinned sections tighten up so nothing is cut off */
@@ -85,102 +83,37 @@ html.is-loading {
 }
 
 @layer components {
-  /* Glass surfaces: only on things you interact with (nav, cards, panels, form) */
-  .glass {
-    background: linear-gradient(155deg, rgb(255 255 255 / 0.085), rgb(255 255 255 / 0.02) 55%, rgb(255 255 255 / 0.04));
-    -webkit-backdrop-filter: blur(22px) saturate(160%);
-    backdrop-filter: blur(22px) saturate(160%);
-    border: 1px solid rgb(255 255 255 / 0.1);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.12),
-      inset 0 -1px 0 rgb(255 255 255 / 0.03),
-      0 40px 90px -40px rgb(0 0 0 / 0.75);
-  }
-  .glass-strong {
-    background:
-      radial-gradient(120% 70% at 0% 0%, rgb(var(--accent) / 0.12), transparent 60%),
-      linear-gradient(155deg, rgb(var(--bg) / 0.8), rgb(10 13 24 / 0.66));
-    -webkit-backdrop-filter: blur(28px) saturate(150%);
-    backdrop-filter: blur(28px) saturate(150%);
-    border: 1px solid rgb(255 255 255 / 0.1);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.1),
-      0 50px 100px -40px rgb(0 0 0 / 0.8);
-  }
-
   /*
-   * Glass for content panels that sit over the car. Darker than .glass so white
-   * text stays readable over light paint, with a wash of the accent colours and
-   * a gradient hairline border.
+   * Surfaces are flat: one solid colour, a hairline border, no blur haze and
+   * no drop shadow. The nav stays very slightly translucent so the page can
+   * be sensed scrolling beneath it.
    */
+  .glass {
+    background-color: rgb(var(--surface) / 0.94);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgb(255 255 255 / 0.08);
+  }
+  .glass-strong,
   .glass-card {
     position: relative;
-    background:
-      radial-gradient(130% 75% at 0% 0%, rgb(var(--accent) / 0.2), transparent 58%),
-      radial-gradient(100% 70% at 100% 100%, rgb(var(--accent-2) / 0.13), transparent 62%),
-      linear-gradient(165deg, rgb(var(--bg) / 0.82), rgb(8 10 20 / 0.7));
-    -webkit-backdrop-filter: blur(26px) saturate(170%);
-    backdrop-filter: blur(26px) saturate(170%);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.1),
-      0 40px 90px -40px rgb(0 0 0 / 0.85),
-      0 30px 80px -50px rgb(var(--accent) / 0.55);
-  }
-  .glass-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    pointer-events: none;
-    background: linear-gradient(
-      140deg,
-      rgb(var(--accent) / 0.7),
-      rgb(255 255 255 / 0.08) 32%,
-      rgb(255 255 255 / 0.06) 68%,
-      rgb(var(--accent-2) / 0.55)
-    );
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(#000 0 0) content-box exclude,
-      linear-gradient(#000 0 0);
+    background-color: rgb(var(--surface));
+    border: 1px solid rgb(255 255 255 / 0.08);
   }
 
-  /* Soft light that follows the pointer across a card */
-  .spotlight {
-    isolation: isolate;
-  }
-  .spotlight::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: inherit;
-    pointer-events: none;
-    background: radial-gradient(380px circle at var(--mx, 50%) var(--my, -20%), rgb(var(--accent) / 0.22), transparent 65%);
-    opacity: 0;
-    transition: opacity 0.5s cubic-bezier(0.22, 0.8, 0.12, 1);
-  }
-  .spotlight:hover::before {
-    opacity: 1;
-  }
-
-  /* Small pill label, tinted with the accent */
+  /* Small label: hairline outline, tracked capitals in the accent colour */
   .chip {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     border-radius: 999px;
-    border: 1px solid rgb(var(--accent) / 0.35);
-    background: rgb(var(--accent) / 0.12);
-    padding: 0.3rem 0.8rem;
+    border: 1px solid rgb(var(--accent) / 0.45);
+    padding: 0.3rem 0.75rem;
     color: rgb(var(--accent));
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     font-weight: 500;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
   .chip::before {
     content: "";
@@ -188,25 +121,12 @@ html.is-loading {
     height: 6px;
     border-radius: 999px;
     background: rgb(var(--accent));
-    box-shadow: 0 0 10px rgb(var(--accent));
   }
 
-  /* Accent gradient text. Padding keeps italic overhangs and descenders inside the paint */
-  .text-gradient {
-    background-image: linear-gradient(100deg, rgb(var(--accent)), rgb(var(--accent-2)));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    padding: 0 0.08em 0.12em;
-    margin: 0 -0.08em -0.12em;
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-  }
-
-  /* Hairline divider that fades out from the accent */
+  /* Hairline divider in the accent colour */
   .rule-accent {
     height: 1px;
-    background: linear-gradient(90deg, rgb(var(--accent) / 0.75), rgb(var(--accent-2) / 0.3) 45%, rgb(255 255 255 / 0.08));
+    background-color: rgb(var(--accent) / 0.45);
   }
 
   .btn-primary {
@@ -216,24 +136,16 @@ html.is-loading {
     gap: 0.6rem;
     border-radius: 999px;
     padding: 0.95rem 1.7rem;
-    background-image: linear-gradient(100deg, rgb(var(--accent)), rgb(var(--accent-2)));
-    color: #060810;
+    background-color: rgb(var(--accent));
+    /* text in the section's own backdrop colour: champagne on sapphire, gold on espresso… */
+    color: rgb(var(--bg));
     font-size: 0.95rem;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0.005em;
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.35),
-      0 10px 30px -12px rgb(var(--accent) / 0.7);
-    transition:
-      filter 0.4s cubic-bezier(0.22, 0.8, 0.12, 1),
-      box-shadow 0.4s cubic-bezier(0.22, 0.8, 0.12, 1);
+    transition: background-color 0.4s cubic-bezier(0.22, 0.8, 0.12, 1);
   }
   .btn-primary:hover {
-    filter: brightness(1.08) saturate(1.1);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.4),
-      0 0 0 6px rgb(var(--accent) / 0.14),
-      0 14px 44px -10px rgb(var(--accent) / 0.85);
+    background-color: #ffffff;
   }
   .btn-primary:disabled {
     opacity: 0.6;
@@ -246,10 +158,8 @@ html.is-loading {
     gap: 0.6rem;
     border-radius: 999px;
     padding: 0.95rem 1.6rem;
-    border: 1px solid rgb(255 255 255 / 0.18);
-    background-color: rgb(255 255 255 / 0.04);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
+    border: 1px solid rgb(255 255 255 / 0.22);
+    background-color: transparent;
     color: #e8ecf4;
     font-size: 0.95rem;
     transition:
@@ -257,8 +167,8 @@ html.is-loading {
       background-color 0.4s cubic-bezier(0.22, 0.8, 0.12, 1);
   }
   .btn-ghost:hover {
-    border-color: rgb(var(--accent) / 0.75);
-    background-color: rgb(var(--accent) / 0.12);
+    border-color: rgb(var(--accent));
+    color: rgb(var(--accent));
   }
   .btn-ghost:disabled {
     opacity: 0.45;
@@ -288,7 +198,6 @@ html.is-loading {
     outline: none;
     border-color: rgb(var(--accent) / 0.8);
     background-color: rgb(255 255 255 / 0.07);
-    box-shadow: 0 0 0 4px rgb(var(--accent) / 0.12);
   }
   .field[aria-invalid="true"] {
     border-color: #e48a96;
@@ -299,25 +208,6 @@ html.is-loading {
     background-repeat: no-repeat;
     background-position: right 1rem center;
     padding-right: 2.5rem;
-  }
-
-  /* Vignette + left-side shade so text stays readable over the 3D scene, tinted with the section colour */
-  .scene-scrim {
-    background:
-      radial-gradient(120% 85% at 62% 45%, transparent 45%, rgb(var(--bg) / 0.8) 100%),
-      linear-gradient(90deg, rgb(6 8 16 / 0.62) 0%, rgb(6 8 16 / 0.18) 45%, transparent 65%),
-      linear-gradient(0deg, rgb(var(--bg) / 0.6), transparent 35%);
-  }
-
-  /* Static film grain */
-  .grain {
-    position: fixed;
-    inset: 0;
-    z-index: 95;
-    pointer-events: none;
-    opacity: 0.07;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
 
   .scroll-cue {
@@ -332,7 +222,7 @@ html.is-loading {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgb(var(--accent)), rgb(var(--accent-2)));
+    background: rgb(var(--accent));
     transform: translateY(-100%);
     animation: cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
   }

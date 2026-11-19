@@ -18,8 +18,8 @@ export const rig: CameraShot & {
   lights: number;
   velocity: number;
   paint: RGB;
-  aura: RGB;
-  glow: RGB;
+  accent: RGB;
+  bg: RGB;
 } = {
   cx: h.cx,
   cy: h.cy,
@@ -32,8 +32,8 @@ export const rig: CameraShot & {
   lights: 0,
   velocity: 0,
   paint: [...hexToRgb(h.paint)],
-  aura: [...hexToRgb(h.aura)],
-  glow: [...hexToRgb(h.glow)],
+  accent: [...hexToRgb(h.accent)],
+  bg: [...hexToRgb(h.bg)],
 };
 
 /** What the configurator has selected. The car eases towards these values. */

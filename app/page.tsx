@@ -22,7 +22,6 @@ export default function Home() {
 
       {/* Fixed 3D showroom behind everything */}
       <ExperienceLoader />
-      <div className="scene-scrim pointer-events-none fixed inset-0 z-[1]" aria-hidden />
 
       <Navbar />
 
@@ -44,7 +43,6 @@ export default function Home() {
       <ScrollScenes />
 
       <Cursor />
-      <div className="grain" aria-hidden />
     </SmoothScroll>
   );
 }

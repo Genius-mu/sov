@@ -45,12 +45,10 @@ function Swatches({
             onClick={() => onChange(option.id)}
             className={`size-9 rounded-full transition-shadow duration-300 ${
               checked
-                ? "shadow-[0_0_0_2px_#0c1120,0_0_0_4px_rgb(var(--accent)),0_0_18px_2px_rgb(var(--accent)/0.45)]"
+                ? "shadow-[0_0_0_2px_rgb(var(--surface)),0_0_0_3px_rgb(var(--accent))]"
                 : "shadow-[0_0_0_1px_rgb(255_255_255/0.18)] hover:shadow-[0_0_0_1px_rgb(255_255_255/0.5)]"
             }`}
-            style={{
-              background: `radial-gradient(circle at 32% 28%, rgb(255 255 255 / 0.35), transparent 50%), ${option.hex}`,
-            }}
+            style={{ backgroundColor: option.hex }}
           />
         );
       })}
@@ -86,7 +84,7 @@ function Segmented({
             onClick={() => onChange(option.id)}
             className={`rounded-full px-3 py-2 text-sm transition-colors duration-300 ${
               checked
-                ? "bg-linear-to-r from-accent to-accent-2 font-medium text-night shadow-[0_6px_20px_-8px_rgb(var(--accent)/0.8)]"
+                ? "bg-accent font-medium text-ink"
                 : "text-moon/65 hover:text-moon"
             }`}
           >
@@ -139,7 +137,7 @@ export function Bespoke() {
       <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10">
         <div className="glass-card w-full max-w-[470px] rounded-[32px] p-7 md:p-9">
           <h2 className="font-display text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.02] tracking-[-0.015em]">
-            Specify <em className="text-gradient">your car</em>
+            Specify your car
           </h2>
           <p className="mt-4 leading-relaxed text-moon/70">
             Choose a model and finish. The car changes as you choose, and your advisor receives the

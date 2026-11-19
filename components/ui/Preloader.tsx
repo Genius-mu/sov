@@ -74,7 +74,7 @@ export function Preloader() {
       data-preloader
       role="status"
       aria-label="Loading"
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-night"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-ink"
     >
       <div data-pre className="text-moon">
         <Monogram className="size-16" />
@@ -86,7 +86,7 @@ export function Preloader() {
         <span className="relative h-px flex-1 overflow-hidden bg-white/10">
           <span
             ref={bar}
-            className="absolute inset-0 origin-left bg-champagne"
+            className="absolute inset-0 origin-left bg-accent"
             style={{ transform: "scaleX(0)" }}
           />
         </span>

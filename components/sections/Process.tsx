@@ -31,7 +31,7 @@ export function Process() {
     <section ref={root} id="process" data-scene="process" className="relative flex min-h-svh flex-col justify-between py-28">
       <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10">
         <h2 className="font-display text-[clamp(2.25rem,4.5vw,4.5rem)] leading-[1.02] tracking-[-0.015em]">
-          How a commission <em className="text-gradient">works</em>
+          How a commission works
         </h2>
         <p className="mt-4 max-w-[46ch] text-moon/70">
           From first conversation to handover, one advisor looks after you throughout.
@@ -43,7 +43,7 @@ export function Process() {
           <div className="absolute inset-x-0 top-[7px] hidden h-px bg-white/10 md:block" aria-hidden>
             <span
               data-line
-              className="block h-full w-full origin-left bg-linear-to-r from-accent to-accent-2 shadow-[0_0_12px_rgb(var(--accent)/0.6)]"
+              className="block h-full w-full origin-left bg-accent"
               style={{ transform: "scaleX(0)" }}
             />
           </div>
@@ -51,11 +51,11 @@ export function Process() {
             {STEPS.map((step, i) => (
               <li key={step.title} className="relative">
                 <span
-                  className="relative block size-[15px] rounded-full border border-accent bg-ink shadow-[0_0_14px_rgb(var(--accent)/0.55)]"
+                  className="relative block size-[15px] rounded-full border border-accent bg-ink"
                   aria-hidden
                 />
                 <h3 className="mt-6 font-display text-[1.75rem] leading-tight">
-                  <span className="text-gradient mr-2">{i + 1}</span>
+                  <span className="mr-2 text-accent">{i + 1}</span>
                   {step.title}
                 </h3>
                 <p className="mt-3 max-w-[32ch] leading-relaxed text-moon/70">{step.body}</p>

@@ -107,8 +107,8 @@ export function Navbar() {
                   href={item.href}
                   onClick={go(item.href)}
                   aria-current={active === item.href ? "true" : undefined}
-                  className={`transition-colors duration-300 ${
-                    active === item.href ? "text-moon" : "text-moon/60 hover:text-moon"
+                  className={`relative transition-colors duration-300 after:absolute after:-bottom-1.5 after:left-1/2 after:size-1 after:-translate-x-1/2 after:rounded-full after:bg-accent after:transition-opacity after:duration-300 ${
+                    active === item.href ? "text-moon after:opacity-100" : "text-moon/60 after:opacity-0 hover:text-moon"
                   }`}
                 >
                   {item.label}
@@ -136,13 +136,13 @@ export function Navbar() {
         <span className="pointer-events-none absolute inset-x-8 bottom-0 h-px overflow-hidden" aria-hidden>
           <span
             ref={progress}
-            className="block h-full w-full origin-left bg-champagne/70"
+            className="block h-full w-full origin-left bg-accent"
             style={{ transform: "scaleX(0)" }}
           />
         </span>
       </div>
 
-      <div id="mobile-menu" hidden={!open} className="fixed inset-0 -z-10 bg-night/85 backdrop-blur-2xl md:hidden">
+      <div id="mobile-menu" hidden={!open} className="fixed inset-0 -z-10 bg-ink md:hidden">
         <nav aria-label="Mobile" className="flex h-full flex-col justify-center px-8">
           <ul className="space-y-4">
             {NAV.map((item) => (

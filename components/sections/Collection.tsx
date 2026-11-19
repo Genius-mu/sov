@@ -1,31 +1,24 @@
 "use client";
 
-import { useRef, type CSSProperties, type PointerEvent } from "react";
+import { useRef, type CSSProperties } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { scrollToTarget } from "@/lib/lenis";
 import { MODELS, type ModelId } from "@/lib/site";
 
-function trackSpotlight(e: PointerEvent<HTMLElement>) {
-  const r = e.currentTarget.getBoundingClientRect();
-  e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
-  e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
-}
-
-/** Each card's own accent pair. Everything accent-coloured inside the card picks these up. */
-const HUES: Record<ModelId | "preowned", [string, string]> = {
-  phantom: ["255 111 174", "255 179 107"],
-  ghost: ["56 189 248", "167 139 250"],
-  cullinan: ["255 165 61", "255 111 145"],
-  spectre: ["124 131 255", "94 234 212"],
-  preowned: ["34 211 166", "125 211 252"],
+/** Each card's own accent colour ("r g b"). Everything accent-coloured inside the card picks it up. */
+const HUES: Record<ModelId | "preowned", string> = {
+  phantom: "226 201 160", // champagne
+  ghost: "169 207 227", // ice
+  cullinan: "185 214 176", // sage
+  spectre: "198 182 236", // lilac
+  preowned: "233 183 200", // rose
 };
 
-const hue = (id: keyof typeof HUES) =>
-  ({ "--accent": HUES[id][0], "--accent-2": HUES[id][1] }) as CSSProperties;
+const hue = (id: keyof typeof HUES) => ({ "--accent": HUES[id] }) as CSSProperties;
 
 // Height follows the content (cards in the row stretch to match the tallest), so nothing spills out
 const cardClass =
-  "glass-card spotlight flex min-h-[min(50vh,430px)] w-[min(82vw,380px)] shrink-0 snap-start flex-col rounded-[28px] p-6 md:p-7 short:min-h-0 short:p-6";
+  "glass-card flex min-h-[min(50vh,430px)] w-[min(82vw,380px)] shrink-0 snap-start flex-col rounded-[28px] p-6 md:p-7 short:min-h-0 short:p-6";
 
 /**
  * Pinned on desktop: cards slide sideways while the camera tracks along the
@@ -95,7 +88,7 @@ export function Collection() {
     >
       <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10">
         <h2 className="font-display text-[clamp(2.25rem,4.5vw,4.5rem)] leading-[1.02] tracking-[-0.015em] short:text-[clamp(2rem,3.6vw,3.25rem)]">
-          The <em className="text-gradient">collection</em>
+          The collection
         </h2>
         <p className="mt-4 max-w-[44ch] text-moon/70 short:mt-2">
           Four cars, each available to order new or from our approved stock.
@@ -107,7 +100,7 @@ export function Collection() {
         className="flex w-full snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 [scrollbar-width:none] md:w-max md:snap-none md:overflow-visible md:px-10 md:pb-0"
       >
         {MODELS.map((model, i) => (
-          <article key={model.id} onPointerMove={trackSpotlight} style={hue(model.id)} className={cardClass}>
+          <article key={model.id} style={hue(model.id)} className={cardClass}>
             <div className="flex items-center justify-between gap-4">
               <span className="chip">{model.body}</span>
               <span className="font-display text-sm text-moon/40 tabular-nums">0{i + 1}</span>
@@ -136,7 +129,7 @@ export function Collection() {
           </article>
         ))}
 
-        <article onPointerMove={trackSpotlight} style={hue("preowned")} className={cardClass}>
+        <article style={hue("preowned")} className={cardClass}>
           <div className="flex items-center justify-between gap-4">
             <span className="chip">Inspected and warrantied</span>
           </div>
